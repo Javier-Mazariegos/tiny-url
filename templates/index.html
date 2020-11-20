@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+
+
+{% block body %}
+
+  <div class="container shadow-lg">
+    <h2>
+      Formulario
+    </h2>
+      <form method="POST" action="">
+        <div class="form-group">
+          <label for="exampleInputEmail1">id</label>
+          <input type="text" class="form-control" name="id"  placeholder="Ingresar id">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">libro</label>
+          <input type="text" class="form-control" name="libro"  placeholder="Ingresar libro">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">genero</label>
+          <input type="text" class="form-control" name="genero"  placeholder="Ingresar genero">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">paginas</label>
+            <input type="text" class="form-control" name="paginas"  placeholder="Ingresar paginas">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">autor</label>
+            <input type="text" class="form-control" name="autor"  placeholder="Ingresar autor">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+
+
+{% endblock %}

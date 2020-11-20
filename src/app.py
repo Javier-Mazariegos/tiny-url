@@ -1,21 +1,36 @@
+from flask import Flask, url_for, request,redirect
+from jinja2 import Template, Environment, FileSystemLoader
 import redis
 import time
 import os
 
+file_loader = FileSystemLoader('templates')
+env = Environment(loader=file_loader)
 REDIS_HOST = os.getenv("REDIS_HOST", None)
 cache = redis.Redis(host=REDIS_HOST, port=6379)
 
-print("Starting app")
+app = Flask(__name__)
 
-while(True):
-    print("=> Running")
-    time.sleep(1)
-    retries = 5
-    try:
-        current_hits = cache.incr('hits')
-        print(f"Running {REDIS_HOST}, current hits:{current_hits}")
-    except redis.exceptions.ConnectionError as exc:
-        if retries == 0:
-            #raise exc
-            print("'No Redis Connection'")
-        retries -= 1
+#Tiny Urls
+@app.route('/')
+def tiny():
+    template = env.get_template("index.html")
+
+    return template.render()
+
+#Url List
+#@app.route('/urls')
+#def urls():
+    #template = env.get_template('index.html')
+    #return template.render(my_data=my_json['data'], headers=my_json['headers'], image_file= image_file)
+
+
+#Crear Stats
+#@app.route('/stats')
+#def stats():
+    #template = env.get_template('index.html')
+    #return template.render(my_data=my_json['data'], headers=my_json['headers'], image_file= image_file)
+
+
+if __name__ == "__main__":
+    app.run(host="localhost", debug=True)
