@@ -7,18 +7,19 @@
     <h2>
       Tiny URLS
     </h2>
-      <form method="POST" action="">
+      <form method="POST" action="/crear">
         <div class="form-group">
           <label for="exampleInputEmail1"> URL original</label>
-          <input type="text" class="form-control" name="id"  placeholder="¡Ingrese su URL para acortarla!">
+          <input type="text" class="form-control" name="url"  placeholder="¡Ingrese su URL para acortarla!">
         </div>
         <div class="form-group">
           <label for="exampleInputEmail1">Custom ID</label>
-          <input type="text" class="form-control" name="libro"  placeholder="Personaliza tu URL">
+          <input type="text" class="form-control" name="customid"  placeholder="Personaliza tu URL">
         </div>
          <button type="submit" class="btn btn-primary">¡Hacer Tiny!</button>
       </form>
     </div>
 
+    <h1>{{diccionario}}</h1>
 
 {% endblock %}
