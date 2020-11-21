@@ -19,18 +19,17 @@ def tiny():
     return template.render()
 
 #Url List
-#@app.route('/urls')
-#def urls():
-    #template = env.get_template('index.html')
-    #return template.render(my_data=my_json['data'], headers=my_json['headers'], image_file= image_file)
+@app.route('/urls')
+def urls():
+    template = env.get_template('list.html')
+    return template.render()
 
 
 #Crear Stats
-#@app.route('/stats')
-#def stats():
-    #template = env.get_template('index.html')
-    #return template.render(my_data=my_json['data'], headers=my_json['headers'], image_file= image_file)
-
+@app.route('/stats')
+def stats():
+    template = env.get_template('stats.html')
+    return template.render()
 
 if __name__ == "__main__":
-    app.run(host="localhost", debug=True)
+    app.run(debug=True)
