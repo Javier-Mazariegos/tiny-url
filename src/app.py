@@ -19,6 +19,13 @@ if(len(diccionarioURL) == 0):
 bandera = 0
 app = Flask(__name__)
 
+def obtenerUrl():
+    ultima = ""
+    if bandera == -1:
+        for key,value in diccionarioURL.items():
+            ultima = key
+    return ultima
+
 
 def existe(custom):
     global bandera
@@ -35,8 +42,8 @@ def existe(custom):
 @app.route('/')
 def tiny():
     template = env.get_template("index.html")
-    print(bandera)
-    return template.render(diccionario = diccionarioURL, banderaExito = bandera)
+    ultima = obtenerUrl()
+    return template.render(ultimakey = ultima, banderaExito = bandera)
 
 @app.route('/crear', methods=['POST'])
 def crear():

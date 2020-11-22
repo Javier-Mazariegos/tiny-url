@@ -3,6 +3,16 @@
 
 {% block body %}
 
+  <script>
+  function myFunction() {
+    var copyText = document.getElementById("myInput");
+    copyText.select();
+    copyText.setSelectionRange(0, 99999)
+    document.execCommand("copy");
+    alert("Copied the text: " + copyText.value);
+  }
+  </script>
+
   <div class="container shadow-lg">
     <h2>
       Tiny URLS
@@ -10,15 +20,29 @@
       <form method="POST" action="/crear">
         <div class="form-group">
           <label for="exampleInputEmail1"> URL original</label>
-          <input type="text" class="form-control" name="url"  placeholder="¡Ingrese su URL para acortarla!">
+          <input type="text" class="form-control" name="url"  placeholder="¡Ingrese su URL para acortarla!" required>
         </div>
         <div class="form-group">
           <label for="exampleInputEmail1">Custom ID</label>
-          <input type="text" class="form-control" name="customid"  placeholder="Personaliza tu URL">
+          <input type="text" class="form-control" name="customid"  placeholder="Personaliza tu URL" required>
         </div>
          <button type="submit" class="btn btn-primary">¡Hacer Tiny!</button>
       </form>
+      
+      {% if -1 == banderaExito %}
+      <div class="form-group">
+          <label for="exampleInputEmail1">Resultado</label>
+          <input type="text" class="form-control" name="url"  value="http://127.0.0.1:5000/{{ultimakey}}" id="myInput" readonly>
+      </div>
+      <button class="btn btn-primary" onclick="myFunction()">Copy text</button>
+      {% endif%}
 
-     
+      {% if 1 == banderaExito %}
+      <div class="form-group">
+          <label for="exampleInputEmail1">Resultado</label>
+          <input type="text" class="form-control" name="url"  value="Error, custom ID ya existe" id="myInput" readonly>
+      </div>
+      {% endif%}
+
     </div>
 {% endblock %}
