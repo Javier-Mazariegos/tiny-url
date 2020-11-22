@@ -37,6 +37,12 @@ def existe(custom):
                 break
     return bandera
 
+def obtenerCustomid(url):
+    key= url[url.rindex("/"), len(url)]
+    
+    
+
+
 
 #Tiny Urls
 @app.route('/')
@@ -60,7 +66,14 @@ def crear():
 @app.route('/urls')
 def urls():
     template = env.get_template('list.html')
-    return template.render()
+    return template.render(diccionario = diccionarioURL)
+
+@app.route('/eliminar', methods=['POST'])
+def eliminar():
+    if request.method == 'POST':
+        customid = request.form['customid']
+        return redirect(url_for('urls'), 301)
+
 
 
 #Crear Stats
