@@ -6,26 +6,25 @@
     <h2>
       URL List
     </h2>
-    <table class="table" >
+    <table class="table table-striped">
       <thead>
-      <tr>
-        Tiny Url
-        </tr>
         <tr>
-          URL Original
-          </tr>
+          <th scope="col">Tiny URL</th>
+          <th scope="col">URL Original</th>
+          <th scope="col"> Visitas </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for k,v in diccionario.items(): %}
+        <form method="POST" action="/eliminar"> 
           <tr>
-           Vistas
-           </tr>
-        </thead>
-        <tbody>
-          
-          <tr>
-            <th> 1</th>
-            <th>2 </th>
-            <th> 3</th>
-           
+            <td><a href = "http://127.0.0.1:5000/{{k}}">http://127.0.0.1:5000/{{k}}</a></td>
+            <input type="hidden"  name="customid" value="{{k}}">
+            <td>{{v["URL"]}}</td>
+            <td>{{v["visitas"]}}</td>
           </tr>
+        </form>
+        {% endfor %}
       </tbody>
     </table>
     </div> 

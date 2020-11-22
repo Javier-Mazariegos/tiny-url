@@ -78,7 +78,9 @@ def eliminar():
 @app.route('/stats')
 def stats():
     template = env.get_template('stats.html')
-    return template.render()
+    return template.render(diccionario = diccionarioURL)
+
+
 
 if __name__ == "__main__":
     app.run()
