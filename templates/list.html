@@ -18,10 +18,10 @@
         {% for k,v in diccionario.items(): %}
         <form method="POST" action="/eliminar"> 
           <tr>
-          
-            <td name= "customid" ><a href = "http://127.0.0.1:5000/{{k}}">http://127.0.0.1:5000/{{k}}</a></td>
+            <td><a href = "http://127.0.0.1:5000/{{k}}">http://127.0.0.1:5000/{{k}}</a></td>
+            <input type="hidden"  name="customid" value="{{k}}">
             <td>{{v["URL"]}}</td>
-            <td><button class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button></td>
+            <td><button class="btn btn-danger btn-sm rounded-0" type="submit" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button></td>
           </tr>
         </form>
         {% endfor %}

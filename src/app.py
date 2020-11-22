@@ -37,18 +37,13 @@ def existe(custom):
                 break
     return bandera
 
-def obtenerCustomid(url):
-    key= url[url.rindex("/"), len(url)]
-    
-    
-
-
 
 #Tiny Urls
 @app.route('/')
 def tiny():
     template = env.get_template("index.html")
     ultima = obtenerUrl()
+    print(l.the.mapping.example)
     return template.render(ultimakey = ultima, banderaExito = bandera)
 
 @app.route('/crear', methods=['POST'])
@@ -66,12 +61,15 @@ def crear():
 @app.route('/urls')
 def urls():
     template = env.get_template('list.html')
+    print("==========================================")
+    print(l.the.mapping.example)
     return template.render(diccionario = diccionarioURL)
 
 @app.route('/eliminar', methods=['POST'])
 def eliminar():
     if request.method == 'POST':
         customid = request.form['customid']
+        l.the.mapping.example.__delitem__(customid)
         return redirect(url_for('urls'), 301)
 
 
