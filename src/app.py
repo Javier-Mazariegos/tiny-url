@@ -91,7 +91,6 @@ def urls():
     for key,value in conn.hgetall("diccionarioURLS").items():
         nuevoURl = eval(value)
         nDiccionario[key] = nuevoURl["URL"]
-    print(nDiccionario)
     return template.render(diccionario = nDiccionario)
 
 
@@ -103,13 +102,19 @@ def eliminar():
         return redirect(url_for('urls'), 301)
 
 
-"""
+
 #Crear Stats
 @app.route('/stats')
 def stats():
     template = env.get_template('stats.html')
-    return template.render(diccionario = diccionarioURL)
+    nDiccionario = {}
+    for key,value in conn.hgetall("diccionarioURLS").items():
+        nuevoURl = eval(value)
+        nDiccionario[key] = {"URL": nuevoURl["URL"], "visitas": nuevoURl["visitas"]}
+    return template.render(diccionario = nDiccionario)
 
+
+"""
 @app.route('/<name>')   
 def ejemplo(name):
     contar(name)
