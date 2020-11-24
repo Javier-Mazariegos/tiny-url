@@ -16,7 +16,7 @@ conn = redis.StrictRedis('localhost', port=6379, charset="utf-8", decode_respons
 #con esta funcion se sobreescribe
 #hola1 = "URL"
 #hola2 = "www.google.com"
-#conn.hset("diccionario1","2", "{'URL': 'yahoo', 'visitas': '10'}") #---este es para escribir uno nuevo
+#conn.hset("diccionario1","1", "{'URL': 'yahoo', 'visitas': '10'}") #---este es para escribir uno nuevo
 
 
 #dic = eval(conn.hget("diccionario1", "1")) ------
@@ -34,29 +34,29 @@ conn = redis.StrictRedis('localhost', port=6379, charset="utf-8", decode_respons
 
 #print(conn.hvals("diccionario1"))   ------------ este es para obtener todos los valores
 
+#print(conn.hlen("diccionario1"))    ----------- obtenemos cuantos elementos hay en el diccionario
+
+#print(conn.hexists("diccionario1", "1"))  ------ retorna un true o false si la llave existe o no
+
 #if(len(diccionarioURL) == 0):
 #    diccionarioURL = {}
+
+conn.flushall()
 bandera = 0
 app = Flask(__name__)
-
-def obtenerUrl():
-    ultima = ""
-    if bandera == -1:
-        for key,value in diccionarioURL.items():
-            ultima = key
-    return ultima
 
 
 def existe(custom):
     global bandera
     bandera = -1
-    if(len(diccionarioURL) != 0):
-        for key,value in diccionarioURL.items():
-            if key == custom or key == "crear" or key == "urls" or key == "stats":
+    if(conn.hlen("diccionarioURLS") != 0):
+        for key,value in conn.hgetall("diccionarioURLS").items():
+            if key == custom or custom == "crear" or custom == "urls" or custom == "stats":
                 bandera = 1
                 break
     return bandera
 
+"""
 def contar(customid):
     vistas = 0
     for k,v in diccionarioURL.items():
@@ -64,35 +64,32 @@ def contar(customid):
             vistas = v["visitas"]
             vistas = int(vistas) + 1
             v["visitas"] = vistas
+"""
 
 
-#Tiny Urls
 @app.route('/')
 def tiny():
     template = env.get_template("index.html")
-    ultima = obtenerUrl()
-    print(l.the.mapping.example)
-    return template.render(ultimakey = ultima, banderaExito = bandera)
+    customidNuevo = request.args.get('custom')
+    return template.render(ultimakey = customidNuevo, banderaExito = bandera)
 
 @app.route('/crear', methods=['POST'])
 def crear():
     if request.method == 'POST':
         url = request.form['url']
         customid = request.form['customid']
-        if "/" not in customid:
-            if existe(customid) == -1:
-                diccionarioURL[customid] = {"URL":url,"visitas": "0"}
-                l.the.mapping.example = {customid: {"URL":url,"visitas": "0"}}
-        return redirect(url_for('tiny'), 301)
+        if "/" not in customid and existe(customid) == -1:
+            conn.hset("diccionarioURLS", customid , "{'URL': '"+url+"', 'visitas': '0'}")
+        return redirect(url_for('tiny',custom = customid), 301)
 
-#Url List
+
+
 @app.route('/urls')
 def urls():
     template = env.get_template('list.html')
-    #print("==========================================")
-    #print(l.the.mapping.example)
-    return template.render(diccionario = diccionarioURL)
+    return template.render(diccionario = conn.hgetall("diccionarioURLS"))
 
+"""
 @app.route('/eliminar', methods=['POST'])
 def eliminar():
     global l
@@ -116,7 +113,7 @@ def ejemplo(name):
     contar(name)
     return redirect(url_for('stats'), 301)
 
-
+"""
 
 if __name__ == "__main__":
     app.run()
