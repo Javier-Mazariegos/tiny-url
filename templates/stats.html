@@ -16,14 +16,12 @@
       </thead>
       <tbody>
         {% for k,v in diccionario.items(): %}
-        <form method="POST" action="/eliminar"> 
           <tr>
             <td><a href = "http://127.0.0.1:5000/{{k}}">http://127.0.0.1:5000/{{k}}</a></td>
             <input type="hidden"  name="customid" value="{{k}}">
             <td>{{v["URL"]}}</td>
             <td>{{v["visitas"]}}</td>
           </tr>
-        </form>
         {% endfor %}
       </tbody>
     </table>

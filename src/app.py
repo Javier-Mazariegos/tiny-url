@@ -56,16 +56,20 @@ def existe(custom):
                 break
     return bandera
 
-"""
-def contar(customid):
-    vistas = 0
-    for k,v in diccionarioURL.items():
-        if customid == k:
-            vistas = v["visitas"]
-            vistas = int(vistas) + 1
-            v["visitas"] = vistas
-"""
 
+def contar(customid):
+    visitas = 0
+    dic = {}
+    for k,v in conn.hgetall("diccionarioURLS").items():
+        if customid == k:
+            dic = eval(conn.hget("diccionarioURLS", str(k)))
+            visitas = int(dic["visitas"]) + 1 
+            print(visitas)
+            dic["visitas"] = str(visitas)
+            print(dic["visitas"])
+            conn.hset("diccionarioURLS", str(k), str(dic))
+
+            
 
 @app.route('/')
 def tiny():
@@ -114,13 +118,13 @@ def stats():
     return template.render(diccionario = nDiccionario)
 
 
-"""
+
 @app.route('/<name>')   
 def ejemplo(name):
     contar(name)
+    print(conn.hgetall("diccionarioURLS"))
     return redirect(url_for('stats'), 301)
 
-"""
 
 if __name__ == "__main__":
     app.run()
