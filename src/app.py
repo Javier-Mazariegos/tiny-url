@@ -41,7 +41,7 @@ conn = redis.StrictRedis('localhost', port=6379, charset="utf-8", decode_respons
 #if(len(diccionarioURL) == 0):
 #    diccionarioURL = {}
 
-conn.flushall()
+#conn.flushall()
 bandera = 0
 app = Flask(__name__)
 
@@ -73,6 +73,7 @@ def tiny():
     customidNuevo = request.args.get('custom')
     return template.render(ultimakey = customidNuevo, banderaExito = bandera)
 
+
 @app.route('/crear', methods=['POST'])
 def crear():
     if request.method == 'POST':
@@ -83,25 +84,26 @@ def crear():
         return redirect(url_for('tiny',custom = customid), 301)
 
 
-
 @app.route('/urls')
 def urls():
     template = env.get_template('list.html')
-    return template.render(diccionario = conn.hgetall("diccionarioURLS"))
+    nDiccionario = {}
+    for key,value in conn.hgetall("diccionarioURLS").items():
+        nuevoURl = eval(value)
+        nDiccionario[key] = nuevoURl["URL"]
+    print(nDiccionario)
+    return template.render(diccionario = nDiccionario)
 
-"""
+
 @app.route('/eliminar', methods=['POST'])
 def eliminar():
-    global l
     if request.method == 'POST':
         customid = request.form['customid']
-        l.delete(customid)
-        
-        #l.the.mapping.example.__delitem__(customid)
+        conn.hdel("diccionarioURLS",customid)
         return redirect(url_for('urls'), 301)
 
 
-
+"""
 #Crear Stats
 @app.route('/stats')
 def stats():
