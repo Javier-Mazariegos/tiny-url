@@ -1,4 +1,4 @@
-from flask import Flask, url_for, request,redirect
+from flask import Flask, url_for, request,redirect, abort
 from jinja2 import Template, Environment, FileSystemLoader
 import redis
 import time
@@ -41,7 +41,6 @@ conn = redis.StrictRedis('localhost', port=6379, charset="utf-8", decode_respons
 #if(len(diccionarioURL) == 0):
 #    diccionarioURL = {}
 
-#conn.flushall()
 bandera = 0
 app = Flask(__name__)
 
@@ -68,6 +67,14 @@ def contar(customid):
             dic["visitas"] = str(visitas)
             print(dic["visitas"])
             conn.hset("diccionarioURLS", str(k), str(dic))
+
+def urlOriginal(key):
+    for k,v in conn.hgetall("diccionarioURLS").items():
+        if key == k:
+            nuevoURl = eval(v)
+            print("=====================================================================")
+            print(nuevoURl["URL"])
+            return nuevoURl["URL"]
 
             
 
@@ -118,13 +125,18 @@ def stats():
     return template.render(diccionario = nDiccionario)
 
 
+@app.errorhandler(404)
+def page_not_found(e):
+    template = env.get_template('404.html')
+    return template.render(), 404
+
 
 @app.route('/<name>')   
 def ejemplo(name):
     contar(name)
-    print(conn.hgetall("diccionarioURLS"))
-    return redirect(url_for('stats'), 301)
-
+    if conn.hexists("diccionarioURLS", str(name)):
+        return redirect(str(urlOriginal(name)), 301)
+    abort(404)
 
 if __name__ == "__main__":
     app.run()
