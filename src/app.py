@@ -117,8 +117,7 @@ def redireccionar(tinykey):
     data = conn.hget("diccionarioURLS",tinykey)
     print (data)
     parsed_data = eval(data)
-    #return redirect(url, code=302)
-    return parsed_data["URL"]
+    return redirect(parsed_data["URL"], code=302)
 
 """ @app.route('/<key>')
 def redireccionar():
