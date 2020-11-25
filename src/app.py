@@ -55,7 +55,6 @@ def existe(custom):
                 break
     return bandera
 
-
 def contar(customid):
     visitas = 0
     dic = {}
@@ -94,7 +93,6 @@ def crear():
             conn.hset("diccionarioURLS", customid , "{'URL': '"+url+"', 'visitas': '0'}")
         return redirect(url_for('tiny',custom = customid), 301)
 
-
 @app.route('/urls')
 def urls():
     template = env.get_template('list.html')
@@ -112,7 +110,13 @@ def eliminar():
         conn.hdel("diccionarioURLS",customid)
         return redirect(url_for('urls'), 301)
 
-
+#redirecccionar key
+@app.route('/<key>')
+def redireccionar():
+   data = conn.hget("diccionarioURLS", key )
+   print (data)
+#return redirect(url, code=302)
+return data
 
 #Crear Stats
 @app.route('/stats')
