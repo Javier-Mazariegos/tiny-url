@@ -88,7 +88,9 @@ def tiny():
     randomid = randStr(chars='abcdefghijklmnopqrstuvwxyz0123456789',N=6)
     template = env.get_template("index.html")
     customidNuevo = request.args.get('custom')
-    return template.render(ultimakey = customidNuevo, banderaExito = bandera, randomid = randomid)
+    base_url = request.base_url
+    print("==============", base_url)
+    return template.render(ultimakey = customidNuevo, banderaExito = bandera, randomid = randomid, base_url=base_url )
 
 
 @app.route('/crear', methods=['POST'])
@@ -107,7 +109,8 @@ def urls():
     for key,value in conn.hgetall("diccionarioURLS").items():
         nuevoURl = eval(value)
         nDiccionario[key] = nuevoURl["URL"]
-    return template.render(diccionario = nDiccionario)
+        base_url = request.base_url
+    return template.render(diccionario = nDiccionario,base_url=base_url)
 
 
 @app.route('/eliminar', methods=['POST'])

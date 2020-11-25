@@ -2,6 +2,8 @@
 
 
 {% block body %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <div  style="align-items: center; justify-content: center; padding-top: 5vh !important;
   padding-right: 20vh !important;
   padding-bottom: 5vh !important;
@@ -21,10 +23,10 @@
         {% for k,v in diccionario.items(): %}
         <form method="POST" action="/eliminar"> 
           <tr>
-            <td><a href = "http://127.0.0.1:5000/{{k}}">http://127.0.0.1:5000/{{k}}</a></td>
+            <td><a href = "{{base_url}}/{{k}}">{{base_url}}/{{k}}</a></td>
             <input type="hidden"  name="customid" value="{{k}}">
             <td>{{v}}</td>
-            <td><button class="btn btn-danger btn-sm rounded-0" type="submit" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button></td>
+            <td><button  type="submit" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash-o" style=" size: 20px;color:red"></i></button></td>
           </tr>
         </form>
         {% endfor %}
