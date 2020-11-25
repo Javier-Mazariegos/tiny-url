@@ -111,12 +111,22 @@ def eliminar():
         return redirect(url_for('urls'), 301)
 
 #redirecccionar key
-@app.route('/<key>')
+@app.route('/<tinykey>')
+def redireccionar(tinykey):
+    print ("----------------TinyKEY--------------",tinykey)
+    data = conn.hget("diccionarioURLS",tinykey)
+    print (data)
+    parsed_data = eval(data)
+    #return redirect(url, code=302)
+    return parsed_data["URL"]
+
+""" @app.route('/<key>')
 def redireccionar():
-   data = conn.hget("diccionarioURLS", key )
-   print (data)
-#return redirect(url, code=302)
-return data
+    print ("----------------KEY--------------",key)
+    data = conn.hget("diccionarioURLS",key)
+    print (data)
+    #return redirect(url, code=302)
+    return data """
 
 #Crear Stats
 @app.route('/stats')
@@ -135,12 +145,12 @@ def page_not_found(e):
     return template.render(), 404
 
 
-@app.route('/<name>')   
+""" @app.route('/<name>')   
 def ejemplo(name):
     contar(name)
     if conn.hexists("diccionarioURLS", str(name)):
         return redirect(str(urlOriginal(name)), 301)
-    abort(404)
+    abort(404) """
 
 if __name__ == "__main__":
     app.run()
