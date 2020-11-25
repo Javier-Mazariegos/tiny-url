@@ -6,6 +6,9 @@ import os
 from redisworks import Root
 import ast
 
+
+environment="development"
+
 file_loader = FileSystemLoader('templates')
 env = Environment(loader=file_loader)
 #REDIS_HOST = os.getenv("REDIS_HOST", None)
@@ -115,17 +118,13 @@ def eliminar():
 def redireccionar(tinykey):
     print ("----------------TinyKEY--------------",tinykey)
     data = conn.hget("diccionarioURLS",tinykey)
-    print (data)
-    parsed_data = eval(data)
-    return redirect(parsed_data["URL"], code=302)
-
-""" @app.route('/<key>')
-def redireccionar():
-    print ("----------------KEY--------------",key)
-    data = conn.hget("diccionarioURLS",key)
-    print (data)
-    #return redirect(url, code=302)
-    return data """
+    if data :
+        print (data)
+        parsed_data = eval(data)
+        contar(tinykey)
+        return redirect(parsed_data["URL"], code=302)
+    else :
+        abort(404)
 
 #Crear Stats
 @app.route('/stats')
@@ -144,12 +143,9 @@ def page_not_found(e):
     return template.render(), 404
 
 
-""" @app.route('/<name>')   
-def ejemplo(name):
-    contar(name)
-    if conn.hexists("diccionarioURLS", str(name)):
-        return redirect(str(urlOriginal(name)), 301)
-    abort(404) """
-
 if __name__ == "__main__":
-    app.run()
+    debug=False
+    if environment == "development" or environment == "local":
+        debug=True
+    print("Local change")
+    app.run(host="0.0.0.0")
