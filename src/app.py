@@ -5,7 +5,7 @@ import time
 import os
 from redisworks import Root
 import ast
-
+import random, string # para hacer la funcion de un random id
 
 environment="development"
 
@@ -47,6 +47,9 @@ conn = redis.StrictRedis('localhost', port=6379, charset="utf-8", decode_respons
 bandera = 0
 app = Flask(__name__)
 
+def randStr(chars = string.ascii_uppercase + string.digits, N=10):
+  return ''.join(random.choice(chars) for _ in range(N)) #---------------para hacer un random id
+
 
 def existe(custom):
     global bandera
@@ -82,9 +85,10 @@ def urlOriginal(key):
 
 @app.route('/')
 def tiny():
+    randomid = randStr(chars='abcdefghijklmnopqrstuvwxyz0123456789',N=6)
     template = env.get_template("index.html")
     customidNuevo = request.args.get('custom')
-    return template.render(ultimakey = customidNuevo, banderaExito = bandera)
+    return template.render(ultimakey = customidNuevo, banderaExito = bandera, randomid = randomid)
 
 
 @app.route('/crear', methods=['POST'])
