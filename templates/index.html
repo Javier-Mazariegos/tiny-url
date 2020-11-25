@@ -26,7 +26,7 @@
           <label for="exampleInputEmail1">Personaliza tu URL</label>
           <input type="text" class="form-control" name="customid" value= "{{randomid}}" placeholder="Personaliza tu URL" required>
         </div>
-         <button type="submit" class="btn btn-primary">¡Hacer Tiny!</button>
+         <button type="submit" style="background-color: #0099CC;" class="btn btn-primary">¡Hacer Tiny!</button>
       </form>
       
       {% if -1 == banderaExito %}
@@ -34,13 +34,13 @@
           <label for="exampleInputEmail1">Resultado</label>
           <input type="text" class="form-control" name="url"  value="http://127.0.0.1:5000/{{ultimakey}}" id="myInput" readonly>
       </div>
-      <button class="btn btn-primary" onclick="myFunction()">Copy text</button>
+      <button class="btn btn-primary" style="background-color: #0099CC;" onclick="myFunction()">Copy text</button>
       {% endif%}
 
       {% if 1 == banderaExito %}
       <div class="form-group">
           <label for="exampleInputEmail1">Resultado</label>
-          <input type="text" class="form-control" name="url"  value="Error, custom ID ya existe" id="myInput" readonly>
+          <input type="text" class="form-control"  name="url"  value="Error, custom ID ya existe" id="myInput" readonly>
       </div>
       {% endif%}
 
