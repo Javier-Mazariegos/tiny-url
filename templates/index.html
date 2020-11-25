@@ -20,11 +20,11 @@
       <form method="POST" action="/crear">
         <div class="form-group">
           <label for="exampleInputEmail1"> URL original</label>
-          <input type="text" class="form-control" name="url"  placeholder="¡Ingrese su URL para acortarla!" required>
+          <input type="url" class="form-control" name="url" pattern="https?://.+" required  placeholder="¡Ingrese su URL para acortarla!" required>
         </div>
         <div class="form-group">
           <label for="exampleInputEmail1">Personaliza tu URL</label>
-          <input type="text" class="form-control" name="customid" value= "{{randomid}}" placeholder="Personaliza tu URL" required>
+          <input type="text" class="form-control" onclick="this.select()"  name="customid" value= "{{randomid}}" placeholder="Personaliza tu URL" required>
         </div>
          <button type="submit" style="background-color: #0099CC;" class="btn btn-primary">¡Hacer Tiny!</button>
       </form>
