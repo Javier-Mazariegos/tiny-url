@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+
+
+{% block body %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <div  style="align-items: center; justify-content: center; padding-top: 5vh !important;
+  padding-right: 20vh !important;
+  padding-bottom: 5vh !important;
+  padding-left: 20vh !important;">
+    <h2>
+      URL List
+    </h2>
+    <form method="POST" action="/flush"> 
+        <input type="hidden"  name="Flush" value="Flush">
+        <button type="submit" style="background-color: #0099CC; float: right;" class="btn btn-primary">Flush all</button>
+    </form>
+    
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Tiny URL</th>
+          <th scope="col">URL Original</th>
+          <th scope="col"> Visitas </th>
+          <th scope="col"> Eliminar </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for k,v in diccionario.items(): %}
+        <form method="POST" action="/eliminar"> 
+          <tr>
+            <td><a href = "http://127.0.0.1:5000/{{k}}">http://127.0.0.1:5000/{{k}}</a></td>
+            <input type="hidden"  name="customid" value="{{k}}">
+            <input type="hidden"  name="paginaenv" value="admin">
+            <td>{{v["URL"]}}</td>
+            <td>{{v["visitas"]}}</td>
+            <td><button  type="submit" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash-o" style=" size: 20px;color:red"></i></button></td>
+          </tr>
+        </form>
+        {% endfor %}
+      </tbody>
+    </table>
+    </div> 
+ {% endblock %}
