@@ -26,14 +26,14 @@
           <label for="exampleInputEmail1">Personaliza tu URL</label>
           <input type="text" class="form-control" onclick="this.select()"  name="customid" value= "{{randomid}}" placeholder="Personaliza tu URL" required>
         </div>
-         <button type="submit" style="background-color: #0099CC;" class="btn btn-primary">¡Hacer Tiny!</button>
+         <button type="submit" style="background-color: rgb(78, 78, 255); color:#ffee02; border-color:rgb(78, 78, 255) ;" class="btn btn-primary">¡Hacer Tiny!</button>
       </form>
       {% if -1 == banderaExito %}
       <div class="form-group">
           <label for="exampleInputEmail1">Resultado</label>
           <input type="text" class="form-control" name="url"  value="{{base_url}}/{{ultimakey}}" id="myInput" readonly>
       </div>
-      <button class="btn btn-primary" style="background-color: #0099CC;" onclick="myFunction()">Copy text</button>
+      <button  style="background-color: rgb(78, 78, 255); color:#ffee02; border-color:rgb(78, 78, 255) " class="btn btn-primary" onclick="myFunction()">Copy text</button>
       {% endif%}
 
       {% if 1 == banderaExito %}

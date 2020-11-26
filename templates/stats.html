@@ -14,6 +14,7 @@
         <tr>
           <th scope="col">Tiny URL</th>
           <th scope="col">URL Original</th>
+          <th scope="col">Fecha creada</th>
           <th scope="col"> Visitas </th>
         </tr>
       </thead>
@@ -23,6 +24,7 @@
             <td><a href = "http://127.0.0.1:5000/{{k}}">http://127.0.0.1:5000/{{k}}</a></td>
             <input type="hidden"  name="customid" value="{{k}}">
             <td>{{v["URL"]}}</td>
+            <td>{{v["hora"]}}</td>
             <td>{{v["visitas"]}}</td>
           </tr>
         {% endfor %}

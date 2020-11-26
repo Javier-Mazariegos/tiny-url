@@ -6,6 +6,7 @@ import os
 from redisworks import Root
 import ast
 import random, string # para hacer la funcion de un random id
+from datetime import datetime #para la hora y fecha
 
 environment="development"
 
@@ -99,7 +100,10 @@ def crear():
         url = request.form['url']
         customid = request.form['customid']
         if "/" not in customid and existe(customid) == -1:
-            conn.hset("diccionarioURLS", customid , "{'URL': '"+url+"', 'visitas': '0'}")
+            now = datetime.now()
+            current_time = now.strftime("%d-%b-%Y %H:%M:%S")
+            print("Current Time =", current_time)
+            conn.hset("diccionarioURLS", customid , "{'URL': '"+url+"', 'visitas': '0', 'hora':'"+current_time+"'}")
         return redirect(url_for('tiny',custom = customid), 301)
 
 @app.route('/urls')
@@ -140,7 +144,7 @@ def stats():
     nDiccionario = {}
     for key,value in conn.hgetall("diccionarioURLS").items():
         nuevoURl = eval(value)
-        nDiccionario[key] = {"URL": nuevoURl["URL"], "visitas": nuevoURl["visitas"]}
+        nDiccionario[key] = {"URL": nuevoURl["URL"], "visitas": nuevoURl["visitas"], "hora": nuevoURl["hora"]}
     return template.render(diccionario = nDiccionario)
 
 
