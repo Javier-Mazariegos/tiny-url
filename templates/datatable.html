@@ -1,0 +1,42 @@
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
+{% extends 'layout.html' %}
+
+
+{% block body %}
+<script src= "https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src= "https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<div  style="align-items: center; justify-content: center; padding-top: 5vh !important;
+padding-right: 26vh !important;
+padding-bottom: 5vh !important;
+padding-left: 26vh !important;">
+<h2>Search</h2>
+<br>
+<table id="example" class="table table-striped" style="width:100%">
+    <thead>
+        <tr>
+            <th>Tiny URL</th>
+            <th>URL Original</th>
+            <th>Fecha y hora creada</th>
+            <th>Visitas</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for k,v in diccionario.items(): %}
+        <tr>
+          <td><a href = "{{base_url}}{{k}}">{{base_url}}{{k}}</a></td>
+          <input type="hidden"  name="customid" value="{{k}}">
+          <td>{{v["URL"]}}</td>
+          <td>{{v["hora"]}}</td>
+          <td>{{v["visitas"]}}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+</table>
+</div>
+<script>
+$(document).ready(function () {
+  $('#example').DataTable();
+  $('.dataTables_length').addClass('bs-select');
+});
+  </script>
+{% endblock %} 

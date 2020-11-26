@@ -114,11 +114,12 @@ def crear():
 @app.route('/urls')
 def urls():
     template = env.get_template('list.html')
+    base_url = request.host_url
     nDiccionario = {}
     for key,value in conn.hgetall("diccionarioURLS").items():
         nuevoURl = eval(value)
-        nDiccionario[key] = nuevoURl["URL"]
-    base_url = request.host_url
+        nDiccionario[key] = {"URL": nuevoURl["URL"], "hora": nuevoURl["hora"]}
+        base_url = request.host_url
     return template.render(diccionario = nDiccionario,base_url=base_url)
 
 
@@ -173,6 +174,18 @@ def flush():
     if request.method == 'POST':
         conn.flushall()
     return redirect(url_for('admin'), 301)
+
+@app.route('/search')
+def search():
+    template = env.get_template('datatable.html')
+    base_url = request.host_url
+    nDiccionario = {}
+    for key,value in conn.hgetall("diccionarioURLS").items():
+        nuevoURl = eval(value)
+        nDiccionario[key] = {"URL": nuevoURl["URL"], "visitas": nuevoURl["visitas"], "hora": nuevoURl["hora"]}
+        base_url = request.host_url
+    return template.render(diccionario = nDiccionario, base_url=base_url)
+
 
 
 @app.errorhandler(404)
