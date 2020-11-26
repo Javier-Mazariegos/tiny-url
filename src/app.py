@@ -47,6 +47,8 @@ conn = redis.StrictRedis('localhost', port=6379, charset="utf-8", decode_respons
 bandera = 0
 app = Flask(__name__)
 
+
+
 def randStr(chars = string.ascii_uppercase + string.digits, N=10):
   return ''.join(random.choice(chars) for _ in range(N)) #---------------para hacer un random id
 
@@ -56,7 +58,7 @@ def existe(custom):
     bandera = -1
     if(conn.hlen("diccionarioURLS") != 0):
         for key,value in conn.hgetall("diccionarioURLS").items():
-            if key == custom or custom == "crear" or custom == "urls" or custom == "stats":
+            if key == custom or custom == "crear" or custom == "urls" or custom == "stats" or custom == "admin":
                 bandera = 1
                 break
     return bandera
@@ -85,11 +87,14 @@ def urlOriginal(key):
 
 @app.route('/')
 def tiny():
+    global bandera
     randomid = randStr(chars='abcdefghijklmnopqrstuvwxyz0123456789',N=6)
     template = env.get_template("index.html")
     customidNuevo = request.args.get('custom')
     base_url = request.base_url
-    print("==============", base_url)
+    print("==============", customidNuevo)
+    if customidNuevo == None:
+        bandera = 0
     return template.render(ultimakey = customidNuevo, banderaExito = bandera, randomid = randomid, base_url=base_url )
 
 
@@ -109,7 +114,7 @@ def urls():
     for key,value in conn.hgetall("diccionarioURLS").items():
         nuevoURl = eval(value)
         nDiccionario[key] = nuevoURl["URL"]
-        base_url = request.base_url
+    base_url = request.base_url
     return template.render(diccionario = nDiccionario,base_url=base_url)
 
 
@@ -117,8 +122,12 @@ def urls():
 def eliminar():
     if request.method == 'POST':
         customid = request.form['customid']
+        paginaenv = request.form['paginaenv']
         conn.hdel("diccionarioURLS",customid)
-        return redirect(url_for('urls'), 301)
+        if paginaenv == "list":
+            return redirect(url_for('urls'), 301)
+        else:
+            return redirect(url_for('admin'), 301)
 
 #redirecccionar key
 @app.route('/<tinykey>')
@@ -141,7 +150,24 @@ def stats():
     for key,value in conn.hgetall("diccionarioURLS").items():
         nuevoURl = eval(value)
         nDiccionario[key] = {"URL": nuevoURl["URL"], "visitas": nuevoURl["visitas"]}
-    return template.render(diccionario = nDiccionario)
+    base_url = request.base_url
+    return template.render(diccionario = nDiccionario, base_url=base_url)
+
+@app.route('/admin')
+def admin():
+    template = env.get_template('admin.html')
+    nDiccionario = {}
+    for key,value in conn.hgetall("diccionarioURLS").items():
+        nuevoURl = eval(value)
+        nDiccionario[key] = {"URL": nuevoURl["URL"], "visitas": nuevoURl["visitas"]}
+    base_url = request.base_url
+    return template.render(diccionario = nDiccionario, base_url=base_url)
+
+@app.route('/flush', methods=['POST'])
+def flush():
+    if request.method == 'POST':
+        conn.flushall()
+    return redirect(url_for('admin'), 301)
 
 
 @app.errorhandler(404)
