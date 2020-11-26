@@ -86,10 +86,14 @@ def urlOriginal(key):
 
 @app.route('/')
 def tiny():
+    global bandera
     randomid = randStr(chars='abcdefghijklmnopqrstuvwxyz0123456789',N=6)
     template = env.get_template("index.html")
     customidNuevo = request.args.get('custom')
-    base_url = request.base_url
+    print ("------------------------> customidNuevo",customidNuevo)
+    if customidNuevo==None :
+        bandera=0 ##nuevoTiny
+    base_url = request.host_url
     print("==============", base_url)
     return template.render(ultimakey = customidNuevo, banderaExito = bandera, randomid = randomid, base_url=base_url )
 
@@ -112,8 +116,8 @@ def urls():
     nDiccionario = {}
     for key,value in conn.hgetall("diccionarioURLS").items():
         nuevoURl = eval(value)
-        nDiccionario[key] = nuevoURl["URL"]
-        base_url = request.base_url
+        nDiccionario[key] = {"URL": nuevoURl["URL"], "hora": nuevoURl["hora"]}
+        base_url = request.host_url
     return template.render(diccionario = nDiccionario,base_url=base_url)
 
 
@@ -141,11 +145,12 @@ def redireccionar(tinykey):
 @app.route('/stats')
 def stats():
     template = env.get_template('stats.html')
+    base_url = request.host_url
     nDiccionario = {}
     for key,value in conn.hgetall("diccionarioURLS").items():
         nuevoURl = eval(value)
         nDiccionario[key] = {"URL": nuevoURl["URL"], "visitas": nuevoURl["visitas"], "hora": nuevoURl["hora"]}
-    return template.render(diccionario = nDiccionario)
+    return template.render(diccionario = nDiccionario,base_url=base_url)
 
 
 @app.errorhandler(404)

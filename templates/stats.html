@@ -14,14 +14,14 @@
         <tr>
           <th scope="col">Tiny URL</th>
           <th scope="col">URL Original</th>
-          <th scope="col">Fecha creada</th>
+          <th scope="col">Fecha y hora creada</th>
           <th scope="col"> Visitas </th>
         </tr>
       </thead>
       <tbody>
         {% for k,v in diccionario.items(): %}
           <tr>
-            <td><a href = "http://127.0.0.1:5000/{{k}}">http://127.0.0.1:5000/{{k}}</a></td>
+            <td><a href = "{{base_url}}{{k}}">{{base_url}}{{k}}</a></td>
             <input type="hidden"  name="customid" value="{{k}}">
             <td>{{v["URL"]}}</td>
             <td>{{v["hora"]}}</td>

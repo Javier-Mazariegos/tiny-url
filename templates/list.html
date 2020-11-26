@@ -16,6 +16,7 @@
         <tr>
           <th scope="col">Tiny URL</th>
           <th scope="col">URL Original</th>
+          <th scope="col">Fecha y hora creada</th>
           <th scope="col"> </th>
         </tr>
       </thead>
@@ -23,9 +24,10 @@
         {% for k,v in diccionario.items(): %}
         <form method="POST" action="/eliminar"> 
           <tr>
-            <td><a href = "{{base_url}}/{{k}}">{{base_url}}/{{k}}</a></td>
+            <td><a href = "{{base_url}}{{k}}">{{base_url}}{{k}}</a></td>
             <input type="hidden"  name="customid" value="{{k}}">
-            <td>{{v}}</td>
+            <td>{{v["URL"]}}</td>
+            <td>{{v["hora"]}}</td>
             <td><button  type="submit" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash-o" style=" size: 20px;color:red"></i></button></td>
           </tr>
         </form>

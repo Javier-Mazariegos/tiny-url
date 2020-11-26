@@ -10,6 +10,7 @@
     copyText.setSelectionRange(0, 99999)
     document.execCommand("copy");
     alert("Copied the text: " + copyText.value);
+    window.location = '/';
   }
   </script>
 
@@ -31,7 +32,7 @@
       {% if -1 == banderaExito %}
       <div class="form-group">
           <label for="exampleInputEmail1">Resultado</label>
-          <input type="text" class="form-control" name="url"  value="{{base_url}}/{{ultimakey}}" id="myInput" readonly>
+          <input type="text" class="form-control" name="url"  value="{{base_url}}{{ultimakey}}" id="myInput" readonly>
       </div>
       <button  style="background-color: rgb(78, 78, 255); color:#ffee02; border-color:rgb(78, 78, 255) " class="btn btn-primary" onclick="myFunction()">Copy text</button>
       {% endif%}
