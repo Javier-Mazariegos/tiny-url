@@ -15,10 +15,10 @@ app = Flask(__name__,static_url_path='/static')
 
 file_loader = FileSystemLoader('templates')
 env = Environment(loader=file_loader)
-#REDIS_HOST = os.getenv("REDIS_HOST", None)
-#cache = redis.Redis(host=REDIS_HOST, port=6379)
+REDIS_HOST = os.getenv("REDIS_HOST", None)
+conn = redis.Redis(host=REDIS_HOST, port=6379, charset="utf-8", decode_responses=True)
 
-conn = redis.StrictRedis('localhost', port=6379, charset="utf-8", decode_responses=True)
+#conn = redis.StrictRedis('localhost', port=6379, charset="utf-8", decode_responses=True)
 
 #con esta funcion se sobreescribe
 #hola1 = "URL"
