@@ -125,8 +125,8 @@ def urls():
     for key,value in conn.hgetall("diccionarioURLS").items():
         nuevoURl = eval(value)
         nDiccionario[key] = {"URL": nuevoURl["URL"], "hora": nuevoURl["hora"]}
-        base_url = request.host_url
-    return template.render(diccionario = nDiccionario,base_url=base_url)
+    base_url = request.host_url
+    return template.render(diccionario = nDiccionario, base_url=base_url)
 
 
 @app.route('/eliminar', methods=['POST'])
