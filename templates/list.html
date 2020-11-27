@@ -24,7 +24,7 @@
         {% for k,v in diccionario.items(): %}
         <form method="POST" action="/eliminar"> 
           <tr>
-            <td><a href = "{{base_url}}{{k}}">{{base_url}}{{k}}</a></td>
+            <td><a href = "{{base_url}}{{k}}"  target=”_blank”>{{base_url}}{{k}}</a></td>
             <input type="hidden"  name="customid" value="{{k}}">
             <td>{{v["URL"]}}</td>
             <td>{{v["hora"]}}</td>

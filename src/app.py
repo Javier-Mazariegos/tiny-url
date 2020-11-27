@@ -10,6 +10,9 @@ from datetime import datetime #para la hora y fecha
 
 environment="development"
 
+app = Flask(__name__,static_url_path='/static')
+
+
 file_loader = FileSystemLoader('templates')
 env = Environment(loader=file_loader)
 #REDIS_HOST = os.getenv("REDIS_HOST", None)
@@ -46,7 +49,9 @@ conn = redis.StrictRedis('localhost', port=6379, charset="utf-8", decode_respons
 #    diccionarioURL = {}
 
 bandera = 0
-app = Flask(__name__)
+#app = Flask(__name__)
+
+
 
 
 
@@ -89,6 +94,7 @@ def urlOriginal(key):
 @app.route('/')
 def tiny():
     global bandera
+    logo = url_for('static', filename='mini.png')
     randomid = randStr(chars='abcdefghijklmnopqrstuvwxyz0123456789',N=6)
     template = env.get_template("index.html")
     customidNuevo = request.args.get('custom')
@@ -96,7 +102,7 @@ def tiny():
     print("==============", customidNuevo)
     if customidNuevo == None:
         bandera = 0
-    return template.render(ultimakey = customidNuevo, banderaExito = bandera, randomid = randomid, base_url=base_url )
+    return template.render(ultimakey = customidNuevo, banderaExito = bandera, randomid = randomid, base_url=base_url, logo=logo )
 
 
 @app.route('/crear', methods=['POST'])
