@@ -9,7 +9,7 @@
   padding-bottom: 5vh !important;
   padding-left: 20vh !important;">
     <h2>
-      URL List
+      URL List Admin
     </h2>
     <form method="POST" action="/flush"> 
         <input type="hidden"  name="Flush" value="Flush">
@@ -29,7 +29,7 @@
         {% for k,v in diccionario.items(): %}
         <form method="POST" action="/eliminar"> 
           <tr>
-            <td><a href = "http://127.0.0.1:5000/{{k}}">http://127.0.0.1:5000/{{k}}</a></td>
+            <td><a href = "{{base_url}}{{k}}" target="_blank">{{base_url}}{{k}}</a></td>
             <input type="hidden"  name="customid" value="{{k}}">
             <input type="hidden"  name="paginaenv" value="admin">
             <td>{{v["URL"]}}</td>
